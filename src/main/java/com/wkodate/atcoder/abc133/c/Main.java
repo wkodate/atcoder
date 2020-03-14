@@ -8,16 +8,18 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         long l = sc.nextLong();
         long r = sc.nextLong();
-        long i = l;
-        long j = l + 1;
-        long k = l;
-        while (k <= l + 2019 && k <= r) {
-            if (k % 2019 <= i % 2019) {
-                j = i;
-                i = k;
+        long min = 2018;
+        r = Math.min(r, Math.min(r, l + 2019));
+        for (long i = l; i < r; i++) {
+            for (long j = i + 1; j <= r; j++) {
+                if (i % 2019 == 0) {
+                    System.out.println(0);
+                    return;
+                }
+                min = Math.min(min, (i * j) % 2019);
             }
-            k++;
         }
-        System.out.println(i % 2019 * j % 2019);
+        System.out.println(min);
     }
+
 }
