@@ -21,15 +21,6 @@ public class Utils {
         return a * b / gcd(a, b);
     }
 
-    private static int ngcd(int a, int b) {
-        return -1;
-    }
-
-
-    private static int nlcm(int a, int b) {
-        return -1;
-    }
-
     /**
      * 素数判定.
      */
@@ -90,6 +81,24 @@ public class Utils {
         }
         reverse(nums, i + 1);
         System.out.println(Arrays.toString(nums));
+    }
+
+    /**
+     * 二分探索
+     */
+    public int binarySearch(int[] nums, int target) {
+        int left = -1;
+        int right = nums.length;
+        int mid;
+        while (right - left > 1) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+        return target;
     }
 
 }
