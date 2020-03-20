@@ -84,6 +84,20 @@ public class Utils {
     }
 
     /**
+     * factorial 階乗
+     */
+
+    public static long factorial(long n) {
+        final long MOD = 1_000_000_007;
+        long ans = 1;
+        for (long i = 2; i <= n; i++) {
+            ans *= i;
+            ans %= MOD;
+        }
+        return ans;
+    }
+
+    /**
      * 二分探索
      */
     public int binarySearch(int[] nums, int target) {
