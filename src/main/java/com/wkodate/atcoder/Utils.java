@@ -83,6 +83,23 @@ public class Utils {
         System.out.println(Arrays.toString(nums));
     }
 
+    private static void printPermutation(String str, String word) {
+        if (word.length() == str.length()) {
+            System.out.println(word);
+            return;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            printPermutation(str, word + str.charAt(i));
+        }
+    }
+
+    /**
+     * 順列一覧(重複あり)
+     */
+    public static void permute(String str) {
+        printPermutation(str, "");
+    }
+
     /**
      * factorial 階乗
      */
