@@ -117,7 +117,7 @@ public class Utils {
     /**
      * 二分探索
      */
-    public int binarySearch(int[] nums, int target) {
+    public static int binarySearch(int[] nums, int target) {
         int left = -1;
         int right = nums.length;
         int mid;
@@ -130,6 +130,14 @@ public class Utils {
             }
         }
         return target;
+    }
+
+    /**
+     * 三角形の面積.
+     */
+    public static double triangleArea(double a, double b, double c) {
+        double s = (a + b + c) / 2;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
 }
