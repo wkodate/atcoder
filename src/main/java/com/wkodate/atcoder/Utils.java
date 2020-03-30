@@ -140,4 +140,29 @@ public class Utils {
         return Math.sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
+    /**
+     * しゃくとり法。区間計算.
+     * k以上を満たす範囲の組み合わせの数.
+     */
+    public static long twoPointers(int[] a, int k) {
+        long ans = 0;
+        int right = 0;
+        long sum = 0;
+        for (int left = 0; left < a.length; left++) {
+            while (right < a.length && sum < k) {
+                sum += a[right++];
+            }
+            if (sum < k) {
+                break;
+            }
+            ans += a.length - right + 1;
+            if (right == left) {
+                right++;
+            } else {
+                sum -= a[left];
+            }
+        }
+        return ans;
+    }
+
 }
