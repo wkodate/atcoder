@@ -1,6 +1,7 @@
 package com.wkodate.atcoder;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Utils {
 
@@ -163,6 +164,15 @@ public class Utils {
             }
         }
         return ans;
+    }
+
+    /**
+     * 2次元配列のキーソート.
+     */
+    public static void twoDArraySort(long[][] arr) {
+        Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
+        // reversed
+        Arrays.sort(arr, Comparator.comparingLong((long[] a) -> a[0]).reversed());
     }
 
 }
