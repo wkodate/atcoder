@@ -1,4 +1,4 @@
-package com.wkodate.atcoder.arc55.a;
+package com.wkodate.atcoder.arc055.a;
 
 import java.util.Scanner;
 
