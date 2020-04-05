@@ -1,7 +1,9 @@
 package com.wkodate.atcoder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class Utils {
 
@@ -46,9 +48,34 @@ public class Utils {
      * 桁和.
      */
     private static int digsum(int n) {
-        return -1;
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 
+    /**
+     * 約数全列挙.
+     */
+    private static List<Integer> divisors(int n) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i * i < n; i++) {
+            if (n % i != 0) {
+                continue;
+            }
+            list.add(i);
+            if (i != 1 && i * i != n) {
+                list.add(n / i);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * next permutation.次の順列.
+     */
     private static void swap(int[] nums, int i, int j) {
         int tmp = nums[i];
         nums[i] = nums[j];
@@ -65,9 +92,6 @@ public class Utils {
         }
     }
 
-    /**
-     * next permutation.次の順列.
-     */
     public static void nextPermutation(int[] nums) {
         int i = nums.length - 2;
         while (i >= 0 && nums[i + 1] <= nums[i]) {
@@ -84,6 +108,9 @@ public class Utils {
         System.out.println(Arrays.toString(nums));
     }
 
+    /**
+     * 順列一覧(重複あり)
+     */
     private static void printPermutation(String str, String word) {
         if (word.length() == str.length()) {
             System.out.println(word);
@@ -94,9 +121,6 @@ public class Utils {
         }
     }
 
-    /**
-     * 順列一覧(重複あり)
-     */
     public static void permute(String str) {
         printPermutation(str, "");
     }
@@ -104,7 +128,6 @@ public class Utils {
     /**
      * factorial 階乗
      */
-
     public static long factorial(long n) {
         final long MOD = 1_000_000_007;
         long ans = 1;
@@ -116,7 +139,7 @@ public class Utils {
     }
 
     /**
-     * 二分探索
+     * 二分探索。めぐる式
      */
     public static int binarySearch(int[] nums, int target) {
         int left = -1;
@@ -173,6 +196,28 @@ public class Utils {
         Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
         // reversed
         Arrays.sort(arr, Comparator.comparingLong((long[] a) -> a[0]).reversed());
+    }
+
+    /**
+     * ビット全探索. 部分集合を全列挙.
+     */
+    public static void bitSearch() {
+        int[] abc = new int[]{0, 1, 2};
+        int n = abc.length;
+        // 2^n通り
+        for (int bit = 0; bit < (1 << n); bit++) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                if ((1 & (bit >> i)) == 1) {
+                    // trueのときの処理
+                    sb.append(abc[i]);
+                }
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+    public static void main(String[] args) {
     }
 
 }
