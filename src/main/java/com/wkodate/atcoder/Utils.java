@@ -190,7 +190,7 @@ public class Utils {
     }
 
     /**
-     * 2次元配列のキーソート.
+     * 2次元配列のソート.
      */
     public static void twoDArraySort(long[][] arr) {
         Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
