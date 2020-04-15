@@ -1,4 +1,4 @@
-package com.wkodate.atcoder.agc020;
+package com.wkodate.atcoder.agc020.a;
 
 import java.util.Scanner;
 
