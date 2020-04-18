@@ -10,7 +10,7 @@ public class Utils {
     /**
      * 最大公約数.
      */
-    private static int gcd(int a, int b) {
+    private static long gcd(long a, long b) {
         if (b == 0) {
             return a;
         }
@@ -20,7 +20,7 @@ public class Utils {
     /**
      * 最小公倍数.
      */
-    private static int lcm(int a, int b) {
+    private static long lcm(long a, long b) {
         return a * b / gcd(a, b);
     }
 
@@ -69,6 +69,27 @@ public class Utils {
             if (i != 1 && i * i != n) {
                 list.add(n / i);
             }
+        }
+        return list;
+    }
+
+    /**
+     * 素因数分解.
+     */
+    private static List<Long> primeFactors(long n) {
+        List<Long> list = new ArrayList<>();
+        while (n % 2 == 0) {
+            list.add(2L);
+            n /= 2;
+        }
+        for (long i = 3; i <= Math.sqrt(n); i += 2) {
+            while (n % i == 0) {
+                list.add(i);
+                n /= i;
+            }
+        }
+        if (n > 2) {
+            list.add(n);
         }
         return list;
     }
@@ -214,6 +235,46 @@ public class Utils {
                 }
             }
             System.out.println(sb.toString());
+        }
+    }
+
+    /**
+     * UnionFind. グループ分けを木構造で管理.
+     */
+    static class UnionFind {
+        // 親の番号.
+        private int[] parent;
+
+        public UnionFind(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+            }
+        }
+
+        // xが属する木の根を再帰で得る.
+        private int root(int x) {
+            if (parent[x] == x) {
+                return x;
+            }
+            return parent[x] = root(parent[x]);
+        }
+
+        // 木を結合.
+        private void unite(int x, int y) {
+            int rx = root(x);
+            int ry = root(y);
+            if (rx == ry) {
+                return;
+            }
+            parent[rx] = ry;
+        }
+
+        // 2つの木が同じかどうか.
+        private boolean same(int x, int y) {
+            int rx = root(x);
+            int ry = root(y);
+            return rx == ry;
         }
     }
 
