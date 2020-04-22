@@ -174,7 +174,7 @@ public class Utils {
                 left = mid;
             }
         }
-        return target;
+        return right;
     }
 
     /**
@@ -220,7 +220,7 @@ public class Utils {
     }
 
     /**
-     * ビット全探索. 部分集合を全列挙.
+     * bit全探索. 部分集合を全列挙.
      */
     public static void bitSearch() {
         int[] abc = new int[]{0, 1, 2};
