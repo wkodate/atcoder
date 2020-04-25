@@ -1,8 +1,11 @@
 package com.wkodate.atcoder;
 
+import java.awt.*;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 
 public class Utils {
@@ -235,6 +238,43 @@ public class Utils {
                 }
             }
             System.out.println(sb.toString());
+        }
+    }
+
+    /**
+     * 幅優先探索.
+     * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
+     */
+    public static void bfs(String[][] s, int h, int w) {
+        final int[][] DXDY = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+        Deque<Point> queue = new ArrayDeque<>();
+        queue.add(new Point(0, 0));
+        int depth = 1;
+        boolean[][] visited = new boolean[h][w];
+        visited[0][0] = true;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            depth++;
+            for (int i = 0; i < size; i++) {
+                Point p = queue.poll();
+                int posx = p.x;
+                int posy = p.y;
+                for (int j = 0; j < DXDY.length; j++) {
+                    int x = posx + DXDY[j][0];
+                    int y = posy + DXDY[j][1];
+                    if (x == h - 1 && y == w - 1) {
+                        System.out.println(depth);
+                        return;
+                    }
+                    if (x < 0 || x >= s.length || y < 0 || y >= s[0].length || "#".equals(s[x][y])
+                            || visited[x][y]) {
+                        continue;
+                    }
+                    visited[x][y] = true;
+                    queue.add(new Point(x, y));
+                }
+            }
         }
     }
 
