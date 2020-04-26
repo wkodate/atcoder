@@ -300,15 +300,15 @@ public class Utils {
      * nCk(n,k);
      */
     private static final int MOD = 1000000007;
-    private static long[] fac = new long[510000];
-    private static long[] finv = new long[510000];
-    private static long[] inv = new long[510000];
+    private static long[] fac = new long[1000000];
+    private static long[] finv = new long[1000000];
+    private static long[] inv = new long[1000000];
 
     public static void nCkInit() {
         fac[0] = fac[1] = 1;
         finv[0] = finv[1] = 1;
         inv[1] = 1;
-        for (int i = 2; i < 510000; i++) {
+        for (int i = 2; i < 1000000; i++) {
             fac[i] = fac[i - 1] * i % MOD;
             inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
             finv[i] = finv[i - 1] * inv[i] % MOD;
