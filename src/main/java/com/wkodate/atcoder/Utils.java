@@ -1,6 +1,6 @@
 package com.wkodate.atcoder;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +95,24 @@ public class Utils {
             list.add(n);
         }
         return list;
+    }
+
+    /**
+     * Longest Common Subsequence(LCS).
+     * 最長共通部分列.
+     */
+    private static long longestCommonSubsequence(String text1, String text2) {
+        long[][] dp = new long[text1.length() + 1][text2.length() + 1];
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[text1.length()][text2.length()];
     }
 
     /**
@@ -226,7 +244,7 @@ public class Utils {
      * bit全探索. 部分集合を全列挙.
      */
     public static void bitSearch() {
-        int[] abc = new int[]{0, 1, 2};
+        int[] abc = new int[] { 0, 1, 2 };
         int n = abc.length;
         // 2^n通り
         for (int bit = 0; bit < (1 << n); bit++) {
@@ -246,7 +264,7 @@ public class Utils {
      * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
      */
     public static void bfs(String[][] s, int h, int w) {
-        final int[][] DXDY = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        final int[][] DXDY = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
         Deque<Point> queue = new ArrayDeque<>();
         queue.add(new Point(0, 0));
@@ -268,7 +286,7 @@ public class Utils {
                         return;
                     }
                     if (x < 0 || x >= s.length || y < 0 || y >= s[0].length || "#".equals(s[x][y])
-                            || visited[x][y]) {
+                        || visited[x][y]) {
                         continue;
                     }
                     visited[x][y] = true;
