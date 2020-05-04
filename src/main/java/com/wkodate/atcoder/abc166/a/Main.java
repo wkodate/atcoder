@@ -1,4 +1,4 @@
-package com.wkodate.atcoder._abcXXX.d;
+package com.wkodate.atcoder.abc166.a;
 
 import java.util.Scanner;
 
@@ -6,9 +6,12 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        long n = sc.nextLong();
         String s = sc.next();
-        System.out.println();
+        if (s.equals("ARC")) {
+            System.out.println("ABC");
+            return;
+        }
+        System.out.println("ARC");
     }
 
 }

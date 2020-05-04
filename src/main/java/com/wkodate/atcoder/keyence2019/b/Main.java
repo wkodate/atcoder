@@ -1,4 +1,4 @@
-package com.wkodate.atcoder.keyence.b;
+package com.wkodate.atcoder.keyence2019.b;
 
 import java.util.Scanner;
 
