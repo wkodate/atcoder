@@ -264,12 +264,12 @@ public class Utils {
      * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
      */
     public static void bfs(String[][] s, int h, int w) {
-
         Deque<Point> queue = new ArrayDeque<>();
         queue.add(new Point(0, 0));
         int depth = 1;
         boolean[][] visited = new boolean[h][w];
         visited[0][0] = true;
+        final int[][] DXDY = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         while (!queue.isEmpty()) {
             int size = queue.size();
             depth++;
@@ -277,7 +277,6 @@ public class Utils {
                 Point p = queue.poll();
                 int posx = p.x;
                 int posy = p.y;
-                final int[][] DXDY = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
                 for (int j = 0; j < DXDY.length; j++) {
                     int x = posx + DXDY[j][0];
                     int y = posy + DXDY[j][1];
