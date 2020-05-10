@@ -153,18 +153,39 @@ public class Utils {
     /**
      * 順列一覧(重複あり)
      */
-    private static void printPermutation(String str, String word) {
+    private static void printPermutationDup(String str, String word) {
         if (word.length() == str.length()) {
             System.out.println(word);
             return;
         }
         for (int i = 0; i < str.length(); i++) {
-            printPermutation(str, word + str.charAt(i));
+            printPermutationDup(str, word + str.charAt(i));
         }
     }
 
-    public static void permute(String str) {
-        printPermutation(str, "");
+    public static void permuteDup(String str) {
+        printPermutationDup(str, "");
+    }
+
+    /**
+     * 順列一覧(重複なし)
+     */
+    private static void permutate(int[] c, String word, int cnt, int k) {
+        if (cnt == k) {
+            System.out.println(word);
+            return;
+        }
+        for (int i = 0; i < c.length; i++) {
+            int[] nodup = new int[c.length - 1];
+            int idx = 0;
+            for (int j = 0; j < c.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                nodup[idx++] = c[j];
+            }
+            permutate(nodup, word + c[i], 1 + cnt, k);
+        }
     }
 
     /**
@@ -263,7 +284,7 @@ public class Utils {
      * 幅優先探索.
      * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
      */
-    public static void bfs(String[][] s, int h, int w) {
+    public static void bfs(char[][] c, int h, int w) {
         Deque<Point> queue = new ArrayDeque<>();
         queue.add(new Point(0, 0));
         int depth = 1;
@@ -281,11 +302,11 @@ public class Utils {
                     int x = posx + DXDY[j][0];
                     int y = posy + DXDY[j][1];
                     if (x == h - 1 && y == w - 1) {
+                        // 終了処理
                         System.out.println(depth);
                         return;
                     }
-                    if (x < 0 || x >= s.length || y < 0 || y >= s[0].length || "#".equals(s[x][y])
-                        || visited[x][y]) {
+                    if (x < 0 || x >= w || y < 0 || y >= h || c[x][y] == '#' || visited[x][y]) {
                         continue;
                     }
                     visited[x][y] = true;
