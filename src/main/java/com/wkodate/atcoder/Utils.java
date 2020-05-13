@@ -256,7 +256,11 @@ public class Utils {
      * 2次元配列のソート.
      */
     public static void twoDArraySort(long[][] arr) {
+        // a[0][0] -a[n][0] を比較してソート
         Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
+        // この状態で第二ソートできる?(未確認)
+        Arrays.sort(arr, Comparator.comparingLong(a -> a[1]));
+
         // reversed
         Arrays.sort(arr, Comparator.comparingLong((long[] a) -> a[0]).reversed());
     }
