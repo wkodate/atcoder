@@ -116,6 +116,20 @@ public class Utils {
     }
 
     /**
+     * 最大部分配列.
+     */
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int max = dp[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
+    /**
      * next permutation.次の順列.
      */
     private static void swap(int[] nums, int i, int j) {
@@ -202,24 +216,6 @@ public class Utils {
     }
 
     /**
-     * 二分探索。めぐる式
-     */
-    public static int binarySearch(int[] nums, int target) {
-        int left = -1;
-        int right = nums.length;
-        int mid;
-        while (right - left > 1) {
-            mid = left + (right - left) / 2;
-            if (nums[mid] >= target) {
-                right = mid;
-            } else {
-                left = mid;
-            }
-        }
-        return right;
-    }
-
-    /**
      * 三角形の面積.
      */
     public static double triangleArea(double a, double b, double c) {
@@ -253,6 +249,53 @@ public class Utils {
     }
 
     /**
+     * 逆元.累乗計算
+     * a/b ≡ a×(1/b)(mod p) の1/bが逆元.
+     * フェルマーの小定理,a*a^(m-2)≡1(mod m).
+     * long ans = a * modpow(b, MOD - 2, MOD) % MOD;
+     */
+    public static long modpow(long a, long b, long mod) {
+        if (b == 0) {
+            return 1;
+        }
+        if (b % 2 == 0) {
+            return modpow(a * a % mod, b / 2, mod);
+        }
+        return a * modpow(a, b - 1, mod) % mod;
+    }
+
+    /**
+     * 二項定理.パスカルの三角形.
+     * nCkInit();
+     * nCk(n,k);
+     */
+    private static final int MOD = 1000000007;
+    private static long[] fac = new long[1000000];
+    private static long[] finv = new long[1000000];
+    private static long[] inv = new long[1000000];
+
+    public static void nCkInit() {
+        fac[0] = fac[1] = 1;
+        finv[0] = finv[1] = 1;
+        inv[1] = 1;
+        for (int i = 2; i < 1000000; i++) {
+            fac[i] = fac[i - 1] * i % MOD;
+            inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
+            finv[i] = finv[i - 1] * inv[i] % MOD;
+        }
+    }
+
+    public static long nCk(int n, int k) {
+        if (n < k) {
+            return 0;
+        }
+        if (n < 0 || k < 0) {
+            return 0;
+        }
+        return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+    }
+
+    /**
      * 2次元配列のソート.
      */
     public static void twoDArraySort(long[][] arr) {
@@ -282,6 +325,24 @@ public class Utils {
             }
             System.out.println(sb.toString());
         }
+    }
+
+    /**
+     * 二分探索。めぐる式
+     */
+    public static int binarySearch(int[] nums, int target) {
+        int left = -1;
+        int right = nums.length;
+        int mid;
+        while (right - left > 1) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+        return right;
     }
 
     /**
@@ -346,53 +407,6 @@ public class Utils {
             }
         }
         return depth;
-    }
-
-    /**
-     * 逆元.累乗計算
-     * a/b ≡ a×(1/b)(mod p) の1/bが逆元.
-     * フェルマーの小定理,a*a^(m-2)≡1(mod m).
-     * long ans = a * modpow(b, MOD - 2, MOD) % MOD;
-     */
-    public static long modpow(long a, long b, long mod) {
-        if (b == 0) {
-            return 1;
-        }
-        if (b % 2 == 0) {
-            return modpow(a * a % mod, b / 2, mod);
-        }
-        return a * modpow(a, b - 1, mod) % mod;
-    }
-
-    /**
-     * 二項定理.
-     * nCkInit();
-     * nCk(n,k);
-     */
-    private static final int MOD = 1000000007;
-    private static long[] fac = new long[1000000];
-    private static long[] finv = new long[1000000];
-    private static long[] inv = new long[1000000];
-
-    public static void nCkInit() {
-        fac[0] = fac[1] = 1;
-        finv[0] = finv[1] = 1;
-        inv[1] = 1;
-        for (int i = 2; i < 1000000; i++) {
-            fac[i] = fac[i - 1] * i % MOD;
-            inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
-            finv[i] = finv[i - 1] * inv[i] % MOD;
-        }
-    }
-
-    public static long nCk(int n, int k) {
-        if (n < k) {
-            return 0;
-        }
-        if (n < 0 || k < 0) {
-            return 0;
-        }
-        return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
     }
 
     /**
