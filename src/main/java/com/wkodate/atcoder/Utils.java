@@ -184,13 +184,13 @@ public class Utils {
     /**
      * 順列一覧(重複なし)
      */
-    private static void permutate(int[] c, String word, int cnt, int k) {
-        if (cnt == k) {
+    private static void permutate(char[] c, String word, int len) {
+        if (word.length() >= len) {
             System.out.println(word);
             return;
         }
         for (int i = 0; i < c.length; i++) {
-            int[] nodup = new int[c.length - 1];
+            char[] nodup = new char[c.length - 1];
             int idx = 0;
             for (int j = 0; j < c.length; j++) {
                 if (i == j) {
@@ -198,8 +198,12 @@ public class Utils {
                 }
                 nodup[idx++] = c[j];
             }
-            permutate(nodup, word + c[i], 1 + cnt, k);
+            permutate(nodup, word + c[i], len);
         }
+    }
+
+    public static void permute(String str) {
+        permutate(str.toCharArray(), "", str.length());
     }
 
     /**
