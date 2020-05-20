@@ -4,9 +4,13 @@ import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Utils {
 
@@ -351,7 +355,6 @@ public class Utils {
 
     /**
      * 幅優先探索.
-     * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
      */
     public static void bfs(char[][] c, int h, int w) {
         Deque<Point> queue = new ArrayDeque<>();
@@ -370,12 +373,7 @@ public class Utils {
                 for (int j = 0; j < DXDY.length; j++) {
                     int x = posx + DXDY[j][0];
                     int y = posy + DXDY[j][1];
-                    if (x == h - 1 && y == w - 1) {
-                        // 終了処理
-                        System.out.println(depth);
-                        return;
-                    }
-                    if (x < 0 || x >= w || y < 0 || y >= h || c[x][y] == '#' || visited[x][y]) {
+                    if (x < 0 || x >= h || y < 0 || y >= w || c[x][y] == '#' || visited[x][y]) {
                         continue;
                     }
                     visited[x][y] = true;
@@ -411,6 +409,21 @@ public class Utils {
             }
         }
         return depth;
+    }
+
+    /**
+     * 優先度付きキュー.PriorityQueue. TopK
+     * 小さい順のトップK.
+     */
+    public static int topK(int[] nums, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>((n1, n2) -> n2 - n1);
+        for (int n : nums) {
+            heap.add(n);
+            if (heap.size() > k) {
+                heap.poll();
+            }
+        }
+        return heap.poll();
     }
 
     /**
@@ -454,6 +467,7 @@ public class Utils {
     }
 
     public static void main(String[] args) {
+        System.out.println(topK(new int[] { 1, 2, 3, 4 }, 3));
     }
 
 }
