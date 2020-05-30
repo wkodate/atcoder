@@ -4,9 +4,13 @@ import java.awt.Point;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Utils {
 
@@ -101,18 +105,32 @@ public class Utils {
      * Longest Common Subsequence(LCS).
      * 最長共通部分列.
      */
-    private static long longestCommonSubsequence(String text1, String text2) {
-        long[][] dp = new long[text1.length() + 1][text2.length() + 1];
+    private static long longestCommonSubsequence(String str1, String str2) {
+        long[][] dp = new long[str1.length() + 1][str2.length() + 1];
         for (int i = 1; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
-                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
                 } else {
                     dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
-        return dp[text1.length()][text2.length()];
+        return dp[str1.length()][str2.length()];
+    }
+
+    /**
+     * 最大部分配列.
+     */
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int max = dp[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            max = Math.max(max, dp[i]);
+        }
+        return max;
     }
 
     /**
@@ -153,18 +171,43 @@ public class Utils {
     /**
      * 順列一覧(重複あり)
      */
-    private static void printPermutation(String str, String word) {
+    private static void printPermutationDup(String str, String word) {
         if (word.length() == str.length()) {
             System.out.println(word);
             return;
         }
         for (int i = 0; i < str.length(); i++) {
-            printPermutation(str, word + str.charAt(i));
+            printPermutationDup(str, word + str.charAt(i));
+        }
+    }
+
+    public static void permuteDup(String str) {
+        printPermutationDup(str, "");
+    }
+
+    /**
+     * 順列一覧(重複なし)
+     */
+    private static void permutate(char[] c, String word, int len) {
+        if (word.length() >= len) {
+            System.out.println(word);
+            return;
+        }
+        for (int i = 0; i < c.length; i++) {
+            char[] nodup = new char[c.length - 1];
+            int idx = 0;
+            for (int j = 0; j < c.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                nodup[idx++] = c[j];
+            }
+            permutate(nodup, word + c[i], len);
         }
     }
 
     public static void permute(String str) {
-        printPermutation(str, "");
+        permutate(str.toCharArray(), "", str.length());
     }
 
     /**
@@ -178,24 +221,6 @@ public class Utils {
             ans %= MOD;
         }
         return ans;
-    }
-
-    /**
-     * 二分探索。めぐる式
-     */
-    public static int binarySearch(int[] nums, int target) {
-        int left = -1;
-        int right = nums.length;
-        int mid;
-        while (right - left > 1) {
-            mid = left + (right - left) / 2;
-            if (nums[mid] >= target) {
-                right = mid;
-            } else {
-                left = mid;
-            }
-        }
-        return right;
     }
 
     /**
@@ -232,10 +257,59 @@ public class Utils {
     }
 
     /**
+     * 逆元.累乗計算
+     * a/b ≡ a×(1/b)(mod p) の1/bが逆元.
+     * フェルマーの小定理,a*a^(m-2)≡1(mod m).
+     * long ans = a * modpow(b, MOD - 2, MOD) % MOD;
+     */
+    public static long modpow(long a, long b, long mod) {
+        if (b == 0) {
+            return 1;
+        }
+        if (b % 2 == 0) {
+            return modpow(a * a % mod, b / 2, mod);
+        }
+        return a * modpow(a, b - 1, mod) % mod;
+    }
+
+    /**
+     * 二項定理.パスカルの三角形.
+     * nCkInit();
+     * nCk(n,k);
+     */
+    private static final int MOD = 1000000007;
+    private static long[] fac = new long[1000000];
+    private static long[] finv = new long[1000000];
+    private static long[] inv = new long[1000000];
+
+    public static void nCkInit() {
+        fac[0] = fac[1] = 1;
+        finv[0] = finv[1] = 1;
+        inv[1] = 1;
+        for (int i = 2; i < 1000000; i++) {
+            fac[i] = fac[i - 1] * i % MOD;
+            inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
+            finv[i] = finv[i - 1] * inv[i] % MOD;
+        }
+    }
+
+    public static long nCk(int n, int k) {
+        if (n < k) {
+            return 0;
+        }
+        if (n < 0 || k < 0) {
+            return 0;
+        }
+        return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+    }
+
+    /**
      * 2次元配列のソート.
      */
     public static void twoDArraySort(long[][] arr) {
+        // a[0][0] -a[n][0] を比較してソート
         Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
+
         // reversed
         Arrays.sort(arr, Comparator.comparingLong((long[] a) -> a[0]).reversed());
     }
@@ -260,16 +334,33 @@ public class Utils {
     }
 
     /**
-     * 幅優先探索.
-     * s[][]のgridを(0,0)から(w,h)に向かってその深さを求める例.
+     * 二分探索。めぐる式
      */
-    public static void bfs(String[][] s, int h, int w) {
+    public static int binarySearch(int[] nums, int target) {
+        int left = -1;
+        int right = nums.length;
+        int mid;
+        while (right - left > 1) {
+            mid = left + (right - left) / 2;
+            if (nums[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+        return right;
+    }
 
+    /**
+     * 幅優先探索.
+     */
+    public static void bfs(char[][] c, int h, int w) {
         Deque<Point> queue = new ArrayDeque<>();
         queue.add(new Point(0, 0));
         int depth = 1;
         boolean[][] visited = new boolean[h][w];
         visited[0][0] = true;
+        final int[][] DXDY = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
         while (!queue.isEmpty()) {
             int size = queue.size();
             depth++;
@@ -277,16 +368,10 @@ public class Utils {
                 Point p = queue.poll();
                 int posx = p.x;
                 int posy = p.y;
-                final int[][] DXDY = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
                 for (int j = 0; j < DXDY.length; j++) {
                     int x = posx + DXDY[j][0];
                     int y = posy + DXDY[j][1];
-                    if (x == h - 1 && y == w - 1) {
-                        System.out.println(depth);
-                        return;
-                    }
-                    if (x < 0 || x >= s.length || y < 0 || y >= s[0].length || "#".equals(s[x][y])
-                        || visited[x][y]) {
+                    if (x < 0 || x >= h || y < 0 || y >= w || c[x][y] == '#' || visited[x][y]) {
                         continue;
                     }
                     visited[x][y] = true;
@@ -325,50 +410,18 @@ public class Utils {
     }
 
     /**
-     * 逆元.累乗計算
-     * a/b ≡ a×(1/b)(mod p) の1/bが逆元.
-     * フェルマーの小定理,a*a^(m-2)≡1(mod m).
-     * long ans = a * modpow(b, MOD - 2, MOD) % MOD;
+     * 優先度付きキュー.PriorityQueue. TopK
+     * 小さい順のトップK.
      */
-    public static long modpow(long a, long b, long mod) {
-        if (b == 0) {
-            return 1;
+    public static int topK(int[] nums, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>((n1, n2) -> n2 - n1);
+        for (int n : nums) {
+            heap.add(n);
+            if (heap.size() > k) {
+                heap.poll();
+            }
         }
-        if (b % 2 == 0) {
-            return modpow(a * a % mod, b / 2, mod);
-        }
-        return a * modpow(a, b - 1, mod) % mod;
-    }
-
-    /**
-     * 二項定理.
-     * nCkInit();
-     * nCk(n,k);
-     */
-    private static final int MOD = 1000000007;
-    private static long[] fac = new long[1000000];
-    private static long[] finv = new long[1000000];
-    private static long[] inv = new long[1000000];
-
-    public static void nCkInit() {
-        fac[0] = fac[1] = 1;
-        finv[0] = finv[1] = 1;
-        inv[1] = 1;
-        for (int i = 2; i < 1000000; i++) {
-            fac[i] = fac[i - 1] * i % MOD;
-            inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
-            finv[i] = finv[i - 1] * inv[i] % MOD;
-        }
-    }
-
-    public static long nCk(int n, int k) {
-        if (n < k) {
-            return 0;
-        }
-        if (n < 0 || k < 0) {
-            return 0;
-        }
-        return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+        return heap.poll();
     }
 
     /**
@@ -412,6 +465,7 @@ public class Utils {
     }
 
     public static void main(String[] args) {
+        System.out.println(topK(new int[] { 1, 2, 3, 4 }, 3));
     }
 
 }
