@@ -1,36 +1,35 @@
 package com.wkodate.atcoder.abc115.d;
 
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 public class Main {
 
-    public static String createLevelBurger(int l) {
-        StringJoiner sj = new StringJoiner("");
-        if (l >= 1) {
-            sj.add("B");
-            sj.add(createLevelBurger(l - 1));
-            sj.add("P");
-            sj.add(createLevelBurger(l - 1));
-            sj.add("B");
-        } else {
-            sj.add("P");
+    private static long rec(int n, long x) {
+        if (n == 0) {
+            return 1;
         }
-        return sj.toString();
+        long len = (long) Math.pow(2, n + 1) - 3;
+        long num = (long) Math.pow(2, n) - 1;
+        if (x == 1) {
+            return 0;
+        }
+        if (x <= len + 1) {
+            return rec(n - 1, x - 1);
+        }
+        if (x <= len + 2) {
+            return num + 1;
+        }
+        if (x <= (len + 1) * 2) {
+            return num + 1 + rec(n - 1, x - len - 2);
+        }
+        return num * 2 + 1;
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         long x = sc.nextLong();
-        String[] nBurger = createLevelBurger(n).split("");
-        long count = 0;
-        for (int i = 0; i < x; i++) {
-            if (nBurger[i].equals("P")) {
-                count++;
-            }
-        }
-        System.out.println(count);
+        System.out.println(rec(n, x));
     }
 }
 
