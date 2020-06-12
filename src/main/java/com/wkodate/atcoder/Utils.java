@@ -258,6 +258,23 @@ public class Utils {
     }
 
     /**
+     * いもす法. 累積和
+     * 区間に値を加算する (最後に、最終的な区間の値をまとめて知る).
+     */
+    public static int[] imos(int n, int[] l, int[] r) {
+        int[] ans = new int[n + 2];
+        int q = l.length;
+        for (int i = 0; i < q; i++) {
+            ans[l[i]]++;
+            ans[r[i] + 1]--;
+        }
+        for (int i = 1; i <= n; i++) {
+            ans[i] += ans[i - 1];
+        }
+        return ans;
+    }
+
+    /**
      * 逆元.累乗計算
      * a/b ≡ a×(1/b)(mod p) の1/bが逆元.
      * フェルマーの小定理,a*a^(m-2)≡1(mod m).
