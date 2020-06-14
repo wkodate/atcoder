@@ -1,4 +1,4 @@
-package com.wkodate.atcoder.code_festival_2016_qualb.c;
+package com.wkodate.atcoder.code_festival_2015_qualb.c;
 
 import java.util.Arrays;
 import java.util.Scanner;

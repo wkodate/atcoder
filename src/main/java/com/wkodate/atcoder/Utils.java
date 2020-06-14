@@ -67,9 +67,9 @@ public class Utils {
     /**
      * 約数全列挙.
      */
-    private static List<Integer> divisors(int n) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 1; i * i < n; i++) {
+    private static List<Long> divisors(long n) {
+        List<Long> list = new ArrayList<>();
+        for (long i = 1; i * i < n; i++) {
             if (n % i != 0) {
                 continue;
             }
