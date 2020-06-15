@@ -465,6 +465,60 @@ public class Utils {
     }
 
     /**
+     * Dijsktra. ダイキストラ. 最短経路問題.
+     */
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        // Build the adjacency matrix
+        int[][] adj = new int[n][n];
+        for (int[] flight : flights) {
+            adj[flight[0]][flight[1]] = flight[2];
+        }
+        // Shortest distances array
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        // Shortest stops array
+        int[] stops = new int[n];
+        Arrays.fill(stops, Integer.MAX_VALUE);
+        dist[src] = 0;
+        stops[src] = 0;
+
+        // The priority queue would contain (city, distance_from_source, stops_from_source)
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[] { src, 0, 0 });
+        while (!pq.isEmpty()) {
+            int[] arr = pq.poll();
+            int u = arr[0];
+            int dist_u = arr[1];
+            int stops_u = arr[2];
+            // If destination is reached, return the distance to get here
+            if (u == dst) {
+                return dist_u;
+            }
+            // If there are no more steps left, continue
+            if (stops_u == K + 1) {
+                continue;
+            }
+
+            // Examine and relax all neighboring edges if possible
+            for (int v = 0; v < n; v++) {
+                if (adj[u][v] > 0) {
+                    // Less cost?
+                    if (dist_u + adj[u][v] < dist[v]) {
+                        dist[v] = dist_u + adj[u][v];
+                        pq.offer(new int[] { v, dist[v], stops_u + 1 });
+                    }
+                    // Less stops?
+                    else if (stops_u + 1 < stops[v]) {
+                        stops[v] = stops_u + 1;
+                        pq.offer(new int[] { v, dist_u + adj[u][v], stops_u + 1 });
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 優先度付きキュー.PriorityQueue. TopK
      * 小さい順のトップK.
      */
