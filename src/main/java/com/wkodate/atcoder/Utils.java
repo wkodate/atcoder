@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +133,25 @@ public class Utils {
             max = Math.max(max, dp[i]);
         }
         return max;
+    }
+
+    /**
+     * 和がkになる部分配列の和を見つける.
+     * O(n)
+     */
+    public long subarraySum(int[] nums, int k) {
+        long cnt = 0;
+        long sum = 0;
+        Map<Long, Long> map = new HashMap<>();
+        map.put(0L, 1L);
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k)) {
+                cnt += map.get(sum - k);
+            }
+            map.put(sum, map.getOrDefault(sum, 0L) + 1);
+        }
+        return cnt;
     }
 
     /**
