@@ -418,8 +418,10 @@ public class Utils {
         while (right - left > 1) {
             mid = left + (right - left) / 2;
             if (nums[mid] >= target) {
+                // 左側にある
                 right = mid;
             } else {
+                // 右側にある
                 left = mid;
             }
         }
