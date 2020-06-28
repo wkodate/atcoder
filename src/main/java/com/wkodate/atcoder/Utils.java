@@ -541,6 +541,48 @@ public class Utils {
     }
 
     /**
+     * Dijsktra. ダイキストラ2. 最短経路問題.
+     */
+    public static class Edge {
+        int from;
+        int to;
+        long cost;
+
+        private Edge(int from, int to, long cost) {
+            this.from = from;
+            this.to = to;
+            this.cost = cost;
+        }
+    }
+
+    public static long dijkstra(Map<Integer, List<Edge>> allEdges, int start, int end) {
+        long[] d = new long[allEdges.size() + 2];
+        Arrays.fill(d, -1);
+        PriorityQueue<Edge> heap = new PriorityQueue<>(Comparator.comparingLong(a -> d[a.from] + a.cost));
+        d[start] = 0;
+        List<Edge> edges = allEdges.get(start);
+        heap.addAll(edges);
+        while (d[end] < 0) {
+            Edge nearest = heap.poll();
+            if (d[nearest.to] >= 0) {
+                continue;
+            }
+            d[nearest.to] = d[nearest.from] + nearest.cost;
+            if (!allEdges.containsKey(nearest.to)) {
+                continue;
+            }
+            edges = allEdges.get(nearest.to);
+            for (int i = 0; i < edges.size(); i++) {
+                Edge edge = edges.get(i);
+                if (d[edge.to] < 0) {
+                    heap.add(edge);
+                }
+            }
+        }
+        return d[end];
+    }
+
+    /**
      * 優先度付きキュー.PriorityQueue. TopK
      * 小さい順のトップK.
      */
