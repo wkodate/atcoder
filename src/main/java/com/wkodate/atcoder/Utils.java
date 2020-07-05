@@ -54,6 +54,35 @@ public class Utils {
     }
 
     /**
+     * 素数列挙. エラトステネスの篩
+     * 1-nまでの数字で素数リストを返す.
+     */
+    public static List<Integer> sieveOfEratosthenes(int n) {
+        if (n < 2) {
+            return new ArrayList<>();
+        }
+        boolean[] isPrime = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            isPrime[i] = true;
+        }
+        int sqrt = (int) Math.sqrt(n);
+        for (int p = 2; p <= sqrt; p++) {
+            if (isPrime[p]) {
+                for (int i = p * p; i < n; i += p) {
+                    isPrime[i] = false;
+                }
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (isPrime[i]) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    /**
      * 桁和.
      */
     private static int digsum(int n) {
@@ -541,7 +570,7 @@ public class Utils {
     }
 
     /**
-     * Dijsktra. ダイキストラ2. 最短経路問題.
+     * Dijsktra 2. ダイキストラ2. 最短経路問題.
      */
     public static class Edge {
         int from;
@@ -580,6 +609,28 @@ public class Utils {
             }
         }
         return d[end];
+    }
+
+    /**
+     * ワーシャルフロイド.
+     * グラフ上の全てのノード間の最短距離を求める.
+     */
+    public static int[][] warshallFloyd(int[][] d) {
+        int nodeNum = d.length;
+        int[][] min = new int[nodeNum][nodeNum];
+        for (int i = 0; i < nodeNum; i++) {
+            for (int j = 0; j < nodeNum; j++) {
+                min[i][j] = d[i][j];
+            }
+        }
+        for (int k = 0; k < nodeNum; k++) {
+            for (int i = 0; i < nodeNum; i++) {
+                for (int j = 0; j < nodeNum; j++) {
+                    min[i][j] = Math.min(min[i][j], min[i][k] + min[k][j]);
+                }
+            }
+        }
+        return min;
     }
 
     /**
