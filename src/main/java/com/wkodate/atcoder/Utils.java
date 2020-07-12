@@ -261,7 +261,7 @@ public class Utils {
     }
 
     /**
-     * factorial 階乗
+     * factorial 階乗. !.
      */
     public static long factorial(long n) {
         final long MOD = 1_000_000_007;
