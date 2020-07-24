@@ -133,6 +133,23 @@ public class Utils {
     }
 
     /**
+     * ナップサックDP問題.
+     */
+    private static long knapsack(int n, int[] w, int[] v, int weight) {
+        long[][] dp = new long[n + 1][weight + 1];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < weight; j++) {
+                if (j < w[i]) {
+                    dp[i + 1][j] = dp[i][j];
+                } else {
+                    dp[i + 1][j] = Math.max(dp[i][j], dp[i][j - w[i]] + v[i]);
+                }
+            }
+        }
+        return dp[n][weight];
+    }
+
+    /**
      * Longest Common Subsequence(LCS).
      * 最長共通部分列.
      */
@@ -639,6 +656,9 @@ public class Utils {
      */
     public static int topK(int[] nums, int k) {
         PriorityQueue<Integer> heap = new PriorityQueue<>((n1, n2) -> n2 - n1);
+        // valueの小さいほうから並べる
+        //         PriorityQueue<Entry<Integer, Long>> heap = new PriorityQueue<>(
+        //                (n1, n2) -> (int) (n1.getValue() - n2.getValue()));
         for (int n : nums) {
             heap.add(n);
             if (heap.size() > k) {
@@ -689,7 +709,6 @@ public class Utils {
     }
 
     public static void main(String[] args) {
-        System.out.println(topK(new int[] { 1, 2, 3, 4 }, 3));
     }
 
 }
