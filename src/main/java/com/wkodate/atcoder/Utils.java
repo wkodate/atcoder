@@ -691,7 +691,7 @@ public class Utils {
         }
 
         // 木を結合.
-        private void unite(int x, int y) {
+        private void union(int x, int y) {
             int rx = root(x);
             int ry = root(y);
             if (rx == ry) {
@@ -701,10 +701,8 @@ public class Utils {
         }
 
         // 2つの木が同じかどうか.
-        private boolean same(int x, int y) {
-            int rx = root(x);
-            int ry = root(y);
-            return rx == ry;
+        private boolean isSame(int x, int y) {
+            return root(x) == root(y);
         }
     }
 
