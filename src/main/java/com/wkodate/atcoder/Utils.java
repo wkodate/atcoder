@@ -99,7 +99,7 @@ public class Utils {
      */
     private static List<Long> divisors(long n) {
         List<Long> list = new ArrayList<>();
-        for (long i = 1; i * i < n; i++) {
+        for (long i = 1; i * i <= n; i++) {
             if (n % i != 0) {
                 continue;
             }
@@ -107,6 +107,9 @@ public class Utils {
             if (i != 1 && i * i != n) {
                 list.add(n / i);
             }
+        }
+        if (n != 1) {
+            list.add(n);
         }
         return list;
     }
