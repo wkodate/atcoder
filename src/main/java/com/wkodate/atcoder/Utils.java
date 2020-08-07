@@ -463,9 +463,8 @@ public class Utils {
     public static int binarySearch(int[] nums, int target) {
         int left = -1;
         int right = nums.length;
-        int mid;
         while (right - left > 1) {
-            mid = left + (right - left) / 2;
+            int mid = left + (right - left) / 2;
             if (nums[mid] >= target) {
                 // 左側にある
                 right = mid;
