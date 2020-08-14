@@ -259,7 +259,7 @@ public class Utils {
      * 順列一覧(重複なし)
      */
     private static void permutate(char[] c, String word, int len) {
-        if (word.length() >= len) {
+        if (word.length() == len) {
             System.out.println(word);
             return;
         }
