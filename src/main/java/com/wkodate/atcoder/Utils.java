@@ -331,16 +331,15 @@ public class Utils {
      * 区間に値を加算する (最後に、最終的な区間の値をまとめて知る).
      */
     public static int[] imos(int n, int[] l, int[] r) {
-        int[] ans = new int[n + 2];
-        int q = l.length;
-        for (int i = 0; i < q; i++) {
-            ans[l[i]]++;
-            ans[r[i] + 1]--;
+        int[] arr = new int[n + 2];
+        for (int i = 0; i < l.length; i++) {
+            arr[l[i]]++;
+            arr[r[i] + 1]--;
         }
         for (int i = 1; i <= n; i++) {
-            ans[i] += ans[i - 1];
+            arr[i] += arr[i - 1];
         }
-        return ans;
+        return arr;
     }
 
     /**
