@@ -302,31 +302,6 @@ public class Utils {
     }
 
     /**
-     * しゃくとり法。区間計算.
-     * k以上を満たす範囲の組み合わせの数.
-     */
-    public static long twoPointers(int[] a, int k) {
-        long ans = 0;
-        int right = 0;
-        long sum = 0;
-        for (int left = 0; left < a.length; left++) {
-            while (right < a.length && sum < k) {
-                sum += a[right++];
-            }
-            if (sum < k) {
-                break;
-            }
-            ans += a.length - right + 1;
-            if (right == left) {
-                right++;
-            } else {
-                sum -= a[left];
-            }
-        }
-        return ans;
-    }
-
-    /**
      * いもす法. 累積和
      * 区間に値を加算する (最後に、最終的な区間の値をまとめて知る).
      */
@@ -340,6 +315,34 @@ public class Utils {
             arr[i] += arr[i - 1];
         }
         return arr;
+    }
+
+    /**
+     * しゃくとり法。区間計算.
+     * 連続する部分列の総和がk以下となる区間の数.
+     */
+    public static long twoPointers(int[] a, int k) {
+        long ans = 0;
+        int right = 0;
+        long sum = 0;
+        // 区間の左端leftで場合分け
+        for (int left = 0; left < a.length; left++) {
+            // sumにa[right]を加えても大丈夫ならrightを動かす
+            while (right < a.length && sum + a[right] <= k) {
+                sum += a[right++];
+            }
+            // rightは条件を満たす最大になっている
+            ans += right - left;
+            // leftをインクリメントする準備
+            if (right == left) {
+                // rightがleftに重なったらrightも動かす
+                right++;
+            } else {
+                // leftのみがインクリメントされるのでsumからa[left]を引く
+                sum -= a[left];
+            }
+        }
+        return ans;
     }
 
     /**
