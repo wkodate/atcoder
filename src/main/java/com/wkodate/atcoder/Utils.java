@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,35 @@ public class Utils {
     }
 
     /**
+     * 素数列挙. エラトステネスの篩
+     * 1-nまでの数字で素数リストを返す.
+     */
+    public static List<Integer> sieveOfEratosthenes(int n) {
+        if (n < 2) {
+            return new ArrayList<>();
+        }
+        boolean[] isPrime = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            isPrime[i] = true;
+        }
+        int sqrt = (int) Math.sqrt(n);
+        for (int p = 2; p <= sqrt; p++) {
+            if (isPrime[p]) {
+                for (int i = p * p; i < n; i += p) {
+                    isPrime[i] = false;
+                }
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (isPrime[i]) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    /**
      * 桁和.
      */
     private static int digsum(int n) {
@@ -67,9 +97,9 @@ public class Utils {
     /**
      * 約数全列挙.
      */
-    private static List<Integer> divisors(int n) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 1; i * i < n; i++) {
+    private static List<Long> divisors(long n) {
+        List<Long> list = new ArrayList<>();
+        for (long i = 1; i * i <= n; i++) {
             if (n % i != 0) {
                 continue;
             }
@@ -77,6 +107,9 @@ public class Utils {
             if (i != 1 && i * i != n) {
                 list.add(n / i);
             }
+        }
+        if (n != 1) {
+            list.add(n);
         }
         return list;
     }
@@ -100,6 +133,23 @@ public class Utils {
             list.add(n);
         }
         return list;
+    }
+
+    /**
+     * ナップサックDP問題.
+     */
+    private static long knapsack(int n, int[] w, int[] v, int weight) {
+        long[][] dp = new long[n + 1][weight + 1];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < weight; j++) {
+                if (j < w[i]) {
+                    dp[i + 1][j] = dp[i][j];
+                } else {
+                    dp[i + 1][j] = Math.max(dp[i][j], dp[i][j - w[i]] + v[i]);
+                }
+            }
+        }
+        return dp[n][weight];
     }
 
     /**
@@ -132,6 +182,25 @@ public class Utils {
             max = Math.max(max, dp[i]);
         }
         return max;
+    }
+
+    /**
+     * 和がkになる部分配列の和を見つける.
+     * O(n)
+     */
+    public long subarraySum(int[] nums, int k) {
+        long cnt = 0;
+        long sum = 0;
+        Map<Long, Long> map = new HashMap<>();
+        map.put(0L, 1L);
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k)) {
+                cnt += map.get(sum - k);
+            }
+            map.put(sum, map.getOrDefault(sum, 0L) + 1);
+        }
+        return cnt;
     }
 
     /**
@@ -190,7 +259,7 @@ public class Utils {
      * 順列一覧(重複なし)
      */
     private static void permutate(char[] c, String word, int len) {
-        if (word.length() >= len) {
+        if (word.length() == len) {
             System.out.println(word);
             return;
         }
@@ -212,7 +281,7 @@ public class Utils {
     }
 
     /**
-     * factorial 階乗
+     * factorial 階乗. !.
      */
     public static long factorial(long n) {
         final long MOD = 1_000_000_007;
@@ -233,24 +302,43 @@ public class Utils {
     }
 
     /**
+     * いもす法. 累積和
+     * 区間に値を加算する (最後に、最終的な区間の値をまとめて知る).
+     */
+    public static int[] imos(int n, int[] l, int[] r) {
+        int[] arr = new int[n + 2];
+        for (int i = 0; i < l.length; i++) {
+            arr[l[i]]++;
+            arr[r[i] + 1]--;
+        }
+        for (int i = 1; i <= n; i++) {
+            arr[i] += arr[i - 1];
+        }
+        return arr;
+    }
+
+    /**
      * しゃくとり法。区間計算.
-     * k以上を満たす範囲の組み合わせの数.
+     * 連続する部分列の総和がk以下となる区間の数.
      */
     public static long twoPointers(int[] a, int k) {
         long ans = 0;
         int right = 0;
         long sum = 0;
+        // 区間の左端leftで場合分け
         for (int left = 0; left < a.length; left++) {
-            while (right < a.length && sum < k) {
+            // sumにa[right]を加えても大丈夫ならrightを動かす
+            while (right < a.length && sum + a[right] <= k) {
                 sum += a[right++];
             }
-            if (sum < k) {
-                break;
-            }
-            ans += a.length - right + 1;
+            // rightは条件を満たす最大になっている
+            ans += right - left;
+            // leftをインクリメントする準備
             if (right == left) {
+                // rightがleftに重なったらrightも動かす
                 right++;
             } else {
+                // leftのみがインクリメントされるのでsumからa[left]を引く
                 sum -= a[left];
             }
         }
@@ -289,7 +377,7 @@ public class Utils {
         inv[1] = 1;
         for (int i = 2; i < 1000000; i++) {
             fac[i] = fac[i - 1] * i % MOD;
-            inv[i] = MOD - inv[(MOD % i)] * (MOD / i) % MOD;
+            inv[i] = MOD - inv[MOD % i] * (MOD / i) % MOD;
             finv[i] = finv[i - 1] * inv[i] % MOD;
         }
     }
@@ -377,12 +465,13 @@ public class Utils {
     public static int binarySearch(int[] nums, int target) {
         int left = -1;
         int right = nums.length;
-        int mid;
         while (right - left > 1) {
-            mid = left + (right - left) / 2;
+            int mid = left + (right - left) / 2;
             if (nums[mid] >= target) {
+                // 左側にある
                 right = mid;
             } else {
+                // 右側にある
                 left = mid;
             }
         }
@@ -448,11 +537,132 @@ public class Utils {
     }
 
     /**
+     * Dijsktra. ダイキストラ. 最短経路問題.
+     */
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        // Build the adjacency matrix
+        int[][] adj = new int[n][n];
+        for (int[] flight : flights) {
+            adj[flight[0]][flight[1]] = flight[2];
+        }
+        // Shortest distances array
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        // Shortest stops array
+        int[] stops = new int[n];
+        Arrays.fill(stops, Integer.MAX_VALUE);
+        dist[src] = 0;
+        stops[src] = 0;
+
+        // The priority queue would contain (city, distance_from_source, stops_from_source)
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[] { src, 0, 0 });
+        while (!pq.isEmpty()) {
+            int[] arr = pq.poll();
+            int u = arr[0];
+            int dist_u = arr[1];
+            int stops_u = arr[2];
+            // If destination is reached, return the distance to get here
+            if (u == dst) {
+                return dist_u;
+            }
+            // If there are no more steps left, continue
+            if (stops_u == K + 1) {
+                continue;
+            }
+
+            // Examine and relax all neighboring edges if possible
+            for (int v = 0; v < n; v++) {
+                if (adj[u][v] > 0) {
+                    // Less cost?
+                    if (dist_u + adj[u][v] < dist[v]) {
+                        dist[v] = dist_u + adj[u][v];
+                        pq.offer(new int[] { v, dist[v], stops_u + 1 });
+                    }
+                    // Less stops?
+                    else if (stops_u + 1 < stops[v]) {
+                        stops[v] = stops_u + 1;
+                        pq.offer(new int[] { v, dist_u + adj[u][v], stops_u + 1 });
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Dijsktra 2. ダイキストラ2. 最短経路問題.
+     */
+    public static class Edge {
+        int from;
+        int to;
+        long cost;
+
+        private Edge(int from, int to, long cost) {
+            this.from = from;
+            this.to = to;
+            this.cost = cost;
+        }
+    }
+
+    public static long dijkstra(Map<Integer, List<Edge>> allEdges, int start, int end) {
+        long[] d = new long[allEdges.size() + 2];
+        Arrays.fill(d, -1);
+        PriorityQueue<Edge> heap = new PriorityQueue<>(Comparator.comparingLong(a -> d[a.from] + a.cost));
+        d[start] = 0;
+        List<Edge> edges = allEdges.get(start);
+        heap.addAll(edges);
+        while (d[end] < 0) {
+            Edge nearest = heap.poll();
+            if (d[nearest.to] >= 0) {
+                continue;
+            }
+            d[nearest.to] = d[nearest.from] + nearest.cost;
+            if (!allEdges.containsKey(nearest.to)) {
+                continue;
+            }
+            edges = allEdges.get(nearest.to);
+            for (int i = 0; i < edges.size(); i++) {
+                Edge edge = edges.get(i);
+                if (d[edge.to] < 0) {
+                    heap.add(edge);
+                }
+            }
+        }
+        return d[end];
+    }
+
+    /**
+     * ワーシャルフロイド.
+     * グラフ上の全てのノード間の最短距離を求める.
+     */
+    public static int[][] warshallFloyd(int[][] d) {
+        int nodeNum = d.length;
+        int[][] min = new int[nodeNum][nodeNum];
+        for (int i = 0; i < nodeNum; i++) {
+            for (int j = 0; j < nodeNum; j++) {
+                min[i][j] = d[i][j];
+            }
+        }
+        for (int k = 0; k < nodeNum; k++) {
+            for (int i = 0; i < nodeNum; i++) {
+                for (int j = 0; j < nodeNum; j++) {
+                    min[i][j] = Math.min(min[i][j], min[i][k] + min[k][j]);
+                }
+            }
+        }
+        return min;
+    }
+
+    /**
      * 優先度付きキュー.PriorityQueue. TopK
      * 小さい順のトップK.
      */
     public static int topK(int[] nums, int k) {
         PriorityQueue<Integer> heap = new PriorityQueue<>((n1, n2) -> n2 - n1);
+        // valueの小さいほうから並べる
+        //         PriorityQueue<Entry<Integer, Long>> heap = new PriorityQueue<>(
+        //                (n1, n2) -> (int) (n1.getValue() - n2.getValue()));
         for (int n : nums) {
             heap.add(n);
             if (heap.size() > k) {
@@ -485,7 +695,7 @@ public class Utils {
         }
 
         // 木を結合.
-        private void unite(int x, int y) {
+        private void union(int x, int y) {
             int rx = root(x);
             int ry = root(y);
             if (rx == ry) {
@@ -495,15 +705,12 @@ public class Utils {
         }
 
         // 2つの木が同じかどうか.
-        private boolean same(int x, int y) {
-            int rx = root(x);
-            int ry = root(y);
-            return rx == ry;
+        private boolean isSame(int x, int y) {
+            return root(x) == root(y);
         }
     }
 
     public static void main(String[] args) {
-        System.out.println(topK(new int[] { 1, 2, 3, 4 }, 3));
     }
 
 }
