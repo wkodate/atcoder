@@ -36,5 +36,5 @@ target/
 *.out
 *.app
 
-cpp/*/*/*
-!cpp/*/*/*.cpp
+cpp/*/*
+!cpp/*/*.cpp
