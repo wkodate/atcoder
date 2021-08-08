@@ -3,6 +3,12 @@ using namespace std;
 
 struct Utils {
 
+  // sort, asc/desc
+  void sort_array(int n, vector<int> a) {
+    sort(a.begin(), a.end());
+    sort(a.begin(), a.end(), greater<int>());
+  }
+
   // bit全探索
   void bitSearch() {
     // 3ビットのビット列をすべて列挙する
