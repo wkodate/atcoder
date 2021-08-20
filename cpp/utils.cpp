@@ -9,6 +9,15 @@ struct Utils {
     sort(a.begin(), a.end(), greater<int>());
   }
 
+  bool ends_with() {
+    string s = "abc";
+    string suffix = "ab";
+    if (s.size() < suffix.size()) {
+      return false;
+    }
+    return equal(rbegin(suffix), rend(suffix), rbegin(s));
+  }
+
   // bit全探索
   void bitSearch() {
     // 3ビットのビット列をすべて列挙する
