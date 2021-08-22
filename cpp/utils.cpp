@@ -5,7 +5,9 @@ struct Utils {
 
   // sort, asc/desc
   void sort_array(int n, vector<int> a) {
+    // asc
     sort(a.begin(), a.end());
+    // desc
     sort(a.begin(), a.end(), greater<int>());
   }
 
@@ -19,11 +21,14 @@ struct Utils {
   }
 
   // bit全探索
-  void bitSearch() {
-    // 3ビットのビット列をすべて列挙する
-    for (int tmp = 0; tmp < (1 << 3); tmp++) {
-      bitset<3> s(tmp);
-      // (ビット列sに対する処理)
+  void bitSearch(int n, vector<int> a) {
+    for (int bit = 0; bit < (1 << n); bit++) {
+      int sum = 0;
+      for (int i = 0; i < n; i++) {
+        if (bit & (1 << i)) {
+          sum += a[i];
+        }
+      }
     }
   }
 };
