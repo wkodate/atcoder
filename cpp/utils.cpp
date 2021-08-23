@@ -11,6 +11,8 @@ struct Utils {
     sort(a.begin(), a.end(), greater<int>());
   }
 
+  bool contains(string s, string t) { return s.find(t) != string::npos; }
+
   bool ends_with() {
     string s = "abc";
     string suffix = "ab";
@@ -33,8 +35,4 @@ struct Utils {
   }
 };
 
-int main() {
-  Utils utils;
-
-  utils.bitSearch();
-}
+int main() {}
