@@ -3,6 +3,26 @@ using namespace std;
 
 struct Utils {
 
+  const long long INF = 1LL << 60;
+
+  // 多次元配列
+  vector<vector<int>> data(3, vector<int>(4));
+
+  template <class T> inline bool chmin(T &a, T b) {
+    if (a > b) {
+      a = b;
+      return true;
+    }
+    return false;
+  }
+  template <class T> inline bool chmax(T &a, T b) {
+    if (a < b) {
+      a = b;
+      return true;
+    }
+    return false;
+  }
+
   // sort, asc/desc
   void sort_array(int n, vector<int> a) {
     // asc
