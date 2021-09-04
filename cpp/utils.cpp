@@ -15,6 +15,7 @@ struct Utils {
     }
     return false;
   }
+
   template <class T> inline bool chmax(T &a, T b) {
     if (a < b) {
       a = b;
