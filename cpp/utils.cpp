@@ -54,6 +54,20 @@ struct Utils {
       }
     }
   }
+
+  // LCS
+  void lcs(vector<int> s, vector<int> t, int max_len) {
+    vector<vector<int>> dp(max_len, vector<int>(max_len));
+    for (int i = 0; i < s.size(); i++) {
+      for (int j = 0; j < t.size(); j++) {
+        if (s[i] == t[j]) {
+          chmax(dp[i + 1][j + 1], dp[i][j] + 1);
+        }
+        chmax(dp[i + 1][j + 1], dp[i + 1][j]);
+        chmax(dp[i + 1][j + 1], dp[i][j + 1]);
+      }
+    }
+  }
 };
 
 int main() {}
