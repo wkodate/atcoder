@@ -68,6 +68,27 @@ struct Utils {
       }
     }
   }
+
+  // Binary search
+  int binary_search(vector<int> a, int key) {
+    // ai < key を満たすiの個数
+    return lower_bound(a.begin(), a.end(), key) - a.begin();
+  }
+
+  // Binary search めぐる式
+  int binary_search(vector<int> a, int key) {
+    int left = -1;
+    int right = (int)a.size();
+    while (right - left > 1) {
+      int mid = left + (right - left) / 2;
+      if (a[mid] >= key) {
+        right = mid;
+      } else {
+        left = mid;
+      }
+    }
+    return right;
+  }
 };
 
 int main() {}
