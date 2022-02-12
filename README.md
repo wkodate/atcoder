@@ -340,6 +340,9 @@ AtCoder
 | abc002 | [solution](./cpp/abc002/a.cpp) | [solution](./cpp/abc002/b.cpp) |  |  |  |  |  |
 | abc003 | [solution](./cpp/abc003/a.cpp) | [solution](./cpp/abc003/b.cpp) |  |  |  |  |  |
 | abc041 | [solution](./cpp/abc041/a.cpp) |  |  |  |  |  |  |
+| abc042 | [solution](./cpp/abc042/a.cpp) |  |  |  |  |  |  |
+| abc043 | [solution](./cpp/abc043/a.cpp) |  |  |  |  |  |  |
+| abc044 | [solution](./cpp/abc044/a.cpp) |  |  |  |  |  |  |
 | abc045 |  |  | [solution](./cpp/abc045/c.cpp) |  |  |  |  |
 | abc049 |  |  | [solution](./cpp/abc049/c.cpp) |  |  |  |  |
 | abc051 |  | [solution](./cpp/abc051/b.cpp) |  |  |  |  |  |
