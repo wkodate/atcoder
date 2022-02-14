@@ -343,7 +343,10 @@ AtCoder
 | abc042 | [solution](./cpp/abc042/a.cpp) |  |  |  |  |  |  |
 | abc043 | [solution](./cpp/abc043/a.cpp) |  |  |  |  |  |  |
 | abc044 | [solution](./cpp/abc044/a.cpp) |  |  |  |  |  |  |
-| abc045 |  |  | [solution](./cpp/abc045/c.cpp) |  |  |  |  |
+| abc045 | [solution](./cpp/abc045/a.cpp) |  | [solution](./cpp/abc045/c.cpp) |  |  |  |  |
+| abc046 | [solution](./cpp/abc046/a.cpp) |  |  |  |  |  |  |
+| abc047 | [solution](./cpp/abc047/a.cpp) |  |  |  |  |  |  |
+| abc048 | [solution](./cpp/abc048/a.cpp) |  |  |  |  |  |  |
 | abc049 |  |  | [solution](./cpp/abc049/c.cpp) |  |  |  |  |
 | abc051 |  | [solution](./cpp/abc051/b.cpp) |  |  |  |  |  |
 | abc077 |  |  | [solution](./cpp/abc077/c.cpp) |  |  |  |  |
@@ -355,5 +358,9 @@ AtCoder
 | abc088 |  | [solution](./cpp/abc088/b.cpp) |  |  |  |  |  |
 | abc114 |  |  | [solution](./cpp/abc114/c.cpp) |  |  |  |  |
 | abc175 | [solution](./cpp/abc175/a.cpp) | [solution](./cpp/abc175/b.cpp) | [solution](./cpp/abc175/c.cpp) |  |  |  |  |
-| abc176 | [solution](./cpp/abc176/a.cpp) |  |  |  |  |  |  |
+| abc176 | [solution](./cpp/abc176/a.cpp) | [solution](./cpp/abc176/b.cpp) |  |  |  |  |  |
+| abc177 | [solution](./cpp/abc177/a.cpp) |  |  |  |  |  |  |
+| abc178 | [solution](./cpp/abc178/a.cpp) |  |  |  |  |  |  |
+| abc179 | [solution](./cpp/abc179/a.cpp) |  |  |  |  |  |  |
+| abc180 | [solution](./cpp/abc180/a.cpp) |  |  |  |  |  |  |
 | dp | [solution](./cpp/dp/a.cpp) | [solution](./cpp/dp/b.cpp) | [solution](./cpp/dp/c.cpp) | [solution](./cpp/dp/d.cpp) | [solution](./cpp/dp/e.cpp) | [solution](./cpp/dp/f.cpp) |  |
