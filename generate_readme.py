@@ -6,13 +6,13 @@ java_contest_problems_map = {}
 cpp_contest_problems_map = {}
 
 def gather_java_file_path():
-    java_file_root_path ="./src/main/java/com/wkodate/atcoder"
+    java_file_root_path ="./java/src/main/java/com/wkodate/atcoder"
     java_files = glob.glob("{}/*/*".format(java_file_root_path))
     for file in java_files:
-        contest_title = file.split("/")[7]
+        contest_title = file.split("/")[8]
         if contest_title.startswith("_"):
             continue
-        problem = file.split("/")[8]
+        problem = file.split("/")[9]
         pset = set()
         if contest_title in java_contest_problems_map:
             pset = java_contest_problems_map.get(contest_title)
