@@ -43,6 +43,41 @@ struct Utils {
     return equal(rbegin(suffix), rend(suffix), rbegin(s));
   }
 
+  // 約数列挙。小さい順に返す
+  vector<long long> enum_divisors(long long n) {
+    vector<long long> res;
+    for (long long i = 0; i <= n; i++) {
+      if (n % i == 0) {
+        res.push_back(i);
+        if (n / i != i) {
+          res.push_back(n / i);
+        }
+      }
+    }
+    sort(res.begin(), res.end());
+    return res;
+  }
+
+  // 素因数分解
+  vector<pair<long long, long long>> prime_factorize(long long n) {
+    vector<pair<long long, long long>> res;
+    for (long long i = 2; i * i <= n; i++) {
+      if (n % i != 0) {
+        continue;
+      }
+      long long ex = 0;
+      while (n % i == 0) {
+        ex++;
+        n /= i;
+      }
+      res.push_back({i, ex});
+    }
+    if (n != 1) {
+      res.push_back({n, 1});
+    }
+    return res;
+  }
+
   // bit全探索
   void bitSearch(int n, vector<int> a) {
     for (int bit = 0; bit < (1 << n); bit++) {
@@ -55,18 +90,19 @@ struct Utils {
     }
   }
 
-  // LCS
-  void lcs(vector<int> s, vector<int> t, int max_len) {
-    vector<vector<int>> dp(max_len, vector<int>(max_len));
-    for (int i = 0; i < s.size(); i++) {
-      for (int j = 0; j < t.size(); j++) {
-        if (s[i] == t[j]) {
+  // LCS: Longest Common Subsequence
+  int longestCommonSubsequence(string text1, string text2) {
+    vector<vector<int>> dp(text1.size() + 1, vector<int>(text2.size() + 1));
+    for (int i = 0; i < text1.size(); i++) {
+      for (int j = 0; j < text2.size(); j++) {
+        if (text1[i] == text2[j]) {
           chmax(dp[i + 1][j + 1], dp[i][j] + 1);
         }
         chmax(dp[i + 1][j + 1], dp[i + 1][j]);
         chmax(dp[i + 1][j + 1], dp[i][j + 1]);
       }
     }
+    return dp[text1.size()][text2.size()];
   }
 
   // Binary search
