@@ -370,5 +370,5 @@ AtCoder
 | abc185 | [solution](./cpp/abc185/a.cpp) | [solution](./cpp/abc185/b.cpp) |  |  |  |  |  |
 | abc186 | [solution](./cpp/abc186/a.cpp) | [solution](./cpp/abc186/b.cpp) |  |  |  |  |  |
 | abc187 | [solution](./cpp/abc187/a.cpp) | [solution](./cpp/abc187/b.cpp) |  |  |  |  |  |
-| abc188 | [solution](./cpp/abc188/a.cpp) | [solution](./cpp/abc188/b.cpp) |  |  |  |  |  |
+| abc188 | [solution](./cpp/abc188/a.cpp) | [solution](./cpp/abc188/b.cpp) | [solution](./cpp/abc188/c.cpp) |  |  |  |  |
 | dp | [solution](./cpp/dp/a.cpp) | [solution](./cpp/dp/b.cpp) | [solution](./cpp/dp/c.cpp) | [solution](./cpp/dp/d.cpp) | [solution](./cpp/dp/e.cpp) | [solution](./cpp/dp/f.cpp) |  |
