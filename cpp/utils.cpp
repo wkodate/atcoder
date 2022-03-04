@@ -5,6 +5,8 @@ struct Utils {
 
   const long long INF = 1LL << 60;
 
+  int MOD = 1000000007;
+
   // 多次元配列
   vector<vector<int>> data(3, vector<int>(4));
 
