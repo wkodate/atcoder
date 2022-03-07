@@ -7,9 +7,6 @@ struct Utils {
 
   int MOD = 1000000007;
 
-  // 多次元配列
-  vector<vector<int>> data(3, vector<int>(4));
-
   template <class T> inline bool chmin(T &a, T b) {
     if (a > b) {
       a = b;
@@ -24,6 +21,16 @@ struct Utils {
       return true;
     }
     return false;
+  }
+
+  // 多次元配列
+  void multiple_array() {
+    vector<vector<int>> data(3, vector<int>(4));
+    for (int i = 0; i < data.size(); i++) {
+      for (int j = 0; j < data.at(0).size(); j++) {
+        cout << data[i][j] << endl;
+      }
+    }
   }
 
   // sort, asc/desc
@@ -46,9 +53,9 @@ struct Utils {
   }
 
   // 約数列挙。小さい順に返す
-  vector<long long> enum_divisors(long long n) {
+  vector<long long> divisors(long long n) {
     vector<long long> res;
-    for (long long i = 0; i <= n; i++) {
+    for (long long i = 1; i * i <= n; i++) {
       if (n % i == 0) {
         res.push_back(i);
         if (n / i != i) {
