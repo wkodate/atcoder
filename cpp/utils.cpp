@@ -153,11 +153,13 @@ struct Utils {
 
   void next_permutation(vector<int> &nums) {
     int i = nums.size() - 2;
-    while (i >= 0 && nums[i + 1] <= nums[i]) {
+    // Find first decreasing element
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
       i--;
     }
     if (i >= 0) {
       int j = nums.size() - 1;
+      // Find number just larget than nums[j]
       while (nums[j] <= nums[i]) {
         j--;
       }
@@ -165,7 +167,6 @@ struct Utils {
     }
     reverse(nums, i + 1);
   }
-
 };
 
 int main() {}
